@@ -4,6 +4,14 @@ from .models import Products#, ImageModel
 from base64 import b64encode, b64decode
 from io import BytesIO
 import codecs
+from .user_serialer import UserSerializer
+def user_creation(request):
+    if request.method == "POST":
+        newUser = UserSerializer(request.data)
+        if newUser.is_valid():
+            newUser.save()
+        return #SomeThing
+
 
 def compress_image(image):
     file_content = image.read()
