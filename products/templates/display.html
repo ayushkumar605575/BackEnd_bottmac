@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Image</title>
+</head>
+<body>
+    <h1 ><a href="add/"><u>Upload Another Data</u></a></h1>
+    {% if image_model %}
+    <h1>{{name}}</h1>
+    <h3>Technical Specification</h3>
+    <!-- <h6>(Baat ko mann me padhna -> padh loge to hmko kuch isara krna fir page refresh kr lena) Abhishek se Pucho</h6> -->
+    {% for feature in features %}
+    <h4>• {{ feature }}</h4>
+    {% endfor %}
+        {% for image in image_model %}
+        <img id="ImgPrev" src="data:image/jpeg;base64,{{ image }}" alt="Uploaded Image" /><br><br>
+        {% endfor %}
+    {% else %}
+        <p>No image uploaded yet.</p>
+    {% endif %}
+</body>
+<script>
+    // document.getElementById("ImgPrev").src = "data:image/jpeg;base64," +"{{ image_model.productImage }}";
+</script>
+</html>

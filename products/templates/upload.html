@@ -1,0 +1,37 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
+</head>
+<body>
+    <h2>Upload Image</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
+
+upload_images.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Images</title>
+</head>
+<body>
+    <h1>Upload Images</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        Name of Product: <input type="text", name="name"><br><br>
+        <input type="file" name="images" class="form-control" multiple><br><br>
+        Enter the Technical Specification of Product:<br> <textarea id="features" name="features" rows="4" cols="50"></textarea> <br><br>
+        <!-- {{ form }} -->
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
