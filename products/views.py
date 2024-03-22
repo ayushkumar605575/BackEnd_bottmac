@@ -2,16 +2,10 @@ from django.shortcuts import render, redirect
 # from .forms import ImageUploadForm
 from .models import Products#, ImageModel
 from base64 import b64encode, b64decode
-from PIL import Image
 from io import BytesIO
 import codecs
 
 def compress_image(image):
-    # img = Image.open(image)
-    # img_io = BytesIO(image).read
-    # img.save(img_io, 'JPEG', quality=70)  # Adjust quality as needed
-    # img_io.seek(0)
-    # return img_io.getvalue()
     file_content = image.read()
     
     # Convert the content to bytes
@@ -32,13 +26,7 @@ def upload_image(request):
             productImages = request.FILES.getlist('images')
             productFeatures = request.POST.get("features")
             print(productFeatures)
-            # ind = 0
-            # for i in productImages:
-            #     handle_uploaded_file(i, ind)
-            #     ind+=1
-            # print(productName)
-            # print(len(productImages))
-            
+
             image_bytes = []
             for productImage in productImages:
                 # print(productImage)
@@ -46,15 +34,6 @@ def upload_image(request):
                 image_bytes.append(b64encode(b''.join(list(productImage.chunks()))))
             # print(image_bytes)
         
-        # for form in form_data:
-        #     print(form)
-        # if form.is_valid():
-        #     image = form.cleaned_data['image']
-        #     name = form.cleaned_data['name']
-            # image_bytes = b64encode(compress_image(image))  # Convert image to bytes
-            # json_str = image_bytes.decode('utf-8')
-            # print(len(image_bytes))
-            # json_objs = json_str.split('\n')
             product_model = Products()
             # image_model.productId = 1
             product_model.productName = productName
@@ -81,30 +60,3 @@ def display_image(request):
         features = product_model.productFeatures.split("\\n")
         return render(request, 'display.html', {'image_model': images, 'name':name, 'features':features})
     return render(request, 'display.html', {'image_model':"No Image Available",'name': ""})
-
-
-# from django.shortcuts import render, redirect
-# from .forms import ImageUploadForm
-# from .models import ImageModel
-# from PIL import Image
-# from io import BytesIO
-
-# def compress_image(image):
-#     img = Image.open(image)
-#     img_io = BytesIO()
-#     img.save(img_io, 'JPEG', quality=70)  # Adjust quality as needed
-#     img_io.seek(0)
-#     return img_io.getvalue()
-
-# def upload_image(request):
-#     if request.method == 'POST':
-#         form = ImageUploadForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             image = form.cleaned_data['image']
-#             compressed_image_bytes = compress_image(image)
-#             image_model = ImageModel(image_bytes=compressed_image_bytes)
-#             image_model.save()
-#             return redirect('image_display')
-#     else:
-#         form = ImageUploadForm()
-#     return render(request, 'upload_image.html', {'form': form})

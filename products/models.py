@@ -1,5 +1,4 @@
 from django.db import models
-import base64
 from django.contrib.postgres.fields import ArrayField
 
 # PRODUCTION ME "UUID" IMPLEMENT KRNA HAI
