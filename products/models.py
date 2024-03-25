@@ -12,6 +12,7 @@ class Products(models.Model):
     # productFeatures = models.TextField()
 
 class Users(models.Model):
+    # userId = models.UUIDField(unique = True, primary_key = True)
     userId = models.CharField(max_length = 100, primary_key = True)
     userName = models.CharField(max_length=60)
     userPhoneNumber = models.CharField(max_length = 13)
