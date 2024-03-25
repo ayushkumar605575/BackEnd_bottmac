@@ -26,6 +26,7 @@ def getData(request):
     # request.headers
     # print(request.META)
     uid = "Guest@User"
+
     try:
         user_auth_key = request.META.get('HTTP_AUTH')
         if user_auth_key  != "BottMac@Guest?User":
