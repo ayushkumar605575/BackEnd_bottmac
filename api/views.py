@@ -4,30 +4,58 @@ from products.models import Products
 from .serialers import ProductSerializer
 from django.http import JsonResponse
 import codecs
+import firebase_admin
+from firebase_admin import auth
+from firebase_admin import credentials
+
+import firebase_admin
+from firebase_admin import credentials
+
+cred = credentials.Certificate(r"D:\\DJANGO\\bottmac-c81ae-firebase-adminsdk-7jwhn-46264e4462.json")
+firebase_admin.initialize_app(cred)
+
+
+# default_app = firebase_admin.initialize_app()
+
+# cred = credentials.RefreshToken('path/to/refreshToken.json')
+# default_app = firebase_admin.initialize_app(cred)
+
 
 @api_view(["GET"])
 def getData(request):
     # request.headers
+    # print(request.META)
+    uid = "Guest@User"
     try:
-        products = Products.objects.all()
-        print(len(products))
-        data = []
-        for product in products:
-            id = product.productId
-            name = product.productName
-            features = product.productFeatures
-            images = []
-            for image in product.productImage:
-                images.append(codecs.decode(image, 'ascii'))
-            data.append({"productId":id, "productName" : name, "productImage" : images, 'productFeatures' : features})
-        return JsonResponse(data, status=200, safe=False)
+        user_auth_key = request.META.get('HTTP_AUTH')
+        if user_auth_key  != "BottMac@Guest?User":
+            decoded_token = auth.verify_id_token(user_auth_key)
+            print(decoded_token)
+            uid = decoded_token['uid']
+        if uid == "Guest@User" or uid == decoded_token['uid']:
+            # print(uid)
+            # print(request.META.get('HTTP_AUTH'))
+            products = Products.objects.all()
+            # elif user_auth_key in ["BottMac@Guest?User", user_auth_key]:
+            print(len(products))
+            data = []
+            for product in products:
+                id = product.productId
+                name = product.productName
+                features = product.productFeatures
+                images = []
+                for image in product.productImage:
+                    images.append(codecs.decode(image, 'ascii'))
+                data.append({"productId":id, "productName" : name, "productImage" : images, 'productFeatures' : features})
+            return JsonResponse(data, status=200, safe=False)
     except Exception as e:
-        print(e.with_traceback)
-        return JsonResponse({"":""}, status=200, safe=False)
+        print(e)
+        return JsonResponse([{"productId":0, "productName" :"null", "productImage" : ["",""], 'productFeatures' : "null\\nnull"}], status=200, safe=False)
 
 
 @api_view(["POST"])
 def addProduct(request):
+    print(request.data)
     serializer = ProductSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
