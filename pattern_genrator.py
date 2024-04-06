@@ -1,7 +1,7 @@
-from random import randint
+from random import randint, choice, shuffle
 from docx import Document
 def main(doc, qid):
-    number = randint(3, 5)
+    number = 3#randint(3, 5)
     max_range = 99//number
     fn = randint(2, max_range)
     sum = fn
@@ -16,14 +16,30 @@ def main(doc, qid):
             sum = sum + rn
         doc.add_paragraph(f"[Q]")
         # test_case = "[Q]\n"
-        nums = '\n'.join(map(str, num_list))
+        # nums = '\n'.join(map(str, num_list))
         # print(''.join(map(str, num_list)))
         for num in num_list:
             doc.add_paragraph(f"{num}")
         # doc.add_paragraph(f"")
+        doc.add_paragraph("[qtype] mcq")
+        option = list(range(max(0, sum-10),sum+11))
+        optt = []
+        for _ in range(3):
+            v = choice(option)
+            option.remove(v)
+            optt.append(v)
+        if sum not in optt:
+            optt.append(sum)
+        else:
+            optt.append(choice(option))
+        shuffle(optt)
+        for v, op in zip(optt, ["a", "b", "c", "d"]):
+                if v == sum:
+                    sum = op
+                doc.add_paragraph(f"[{op}] {v}")
+
         doc.add_paragraph("[ans]")
         doc.add_paragraph(f"{sum}")
-        doc.add_paragraph("[qtype] dtq")
         doc.add_paragraph("[Marks] 1")
         doc.add_paragraph("+ve marks: 1 , -ve marks: 0")
         doc.add_paragraph(f"[sortid] {qid}")
