@@ -1,0 +1,5 @@
+Database me Product baaki details rkhna h.
+
+Compression and decompression in python database.
+
+Saare product ka first photo download krke rkho or jb product details page me jayega user tb uss particular data ka baaki photos download krega backend me.
