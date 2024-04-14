@@ -1,5 +1,7 @@
 from random import randint, choice, shuffle
 from docx import Document
+from tqdm import tqdm
+
 def main(doc, qid):
     number = 3#randint(3, 5)
     max_range = 99//number
@@ -40,8 +42,8 @@ def main(doc, qid):
 
         doc.add_paragraph("[ans]")
         doc.add_paragraph(f"{sum}")
-        doc.add_paragraph("[Marks] 1")
-        doc.add_paragraph("+ve marks: 1 , -ve marks: 0")
+        doc.add_paragraph("[Marks] 2")
+        doc.add_paragraph("+ve marks: 2 , -ve marks: 0")
         doc.add_paragraph(f"[sortid] {qid}")
         doc.add_paragraph()
             # test_case += f"{num}\n"
@@ -57,10 +59,10 @@ def main(doc, qid):
     except:
         main(doc, qid)
 
-for id in range(1, 81):
+for id in tqdm(range(1, 81), total=80):
     doc = Document()
     # with        as f:
-    for qid in range(1, 51):
+    for qid in range(1, 101):
         main(doc, qid)
-    doc.save(f"t/Abacus-1L-{id}.docx")
+    doc.save(f"t/Abacus-BL-{id}.docx")
         # f.close()
